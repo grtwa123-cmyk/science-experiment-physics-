@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="light"/>
+<title>다이오드 시뮬레이터 | 통합과학 회로</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="sim-page">
+  <header class="sim-hdr">
+    <a class="btn-back" href="index.html">◀ 메인으로</a>
+    <h2>⚡ 다이오드 (Diode)</h2>
+    <span class="badge badge-off" id="d-badge">OFF</span>
+  </header>
+  <div class="unit-intro">
+    <div class="unit-label">📘 비상교육 통합과학 Ⅳ단원 · 반도체 소자</div>
+    <p>다이오드는 <strong>PN 접합</strong> 반도체 소자로 전류를 <strong>한 방향으로만</strong> 흐르게 합니다.
+    순방향 바이어스에서 문턱 전압(0.7V)을 넘으면 전류가 흐르고, 역방향에서는 차단됩니다.</p>
+  </div>
+  <div class="sim-main">
+    <div class="canvas-wrap">
+      <canvas id="d-canvas" style="height:300px;"></canvas>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>자유 전자</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div>양공</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981;width:14px;border-radius:2px;height:8px;"></div>N형 반도체</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f97316;width:14px;border-radius:2px;height:8px;"></div>P형 반도체</div>
+      </div>
+    </div>
+    <div class="ctrl-panel">
+      <div class="panel-sec">
+        <h3>🔌 바이어스 방향</h3>
+        <div class="toggle-group" id="d-bias-grp">
+          <button class="toggle-btn active" data-value="forward">순방향</button>
+          <button class="toggle-btn" data-value="reverse">역방향</button>
+        </div>
+      </div>
+      <div class="panel-sec">
+        <h3>🎚️ 전압 조절</h3>
+        <div class="slider-group">
+          <div class="slider-label"><span>인가 전압</span>
+            <span class="slider-value" id="d-vdisp">0.00 V</span></div>
+          <input type="range" id="d-vslider" min="0" max="6" step="0.05" value="0"/>
+        </div>
+      </div>
+      <div class="panel-sec">
+        <h3>📊 측정값</h3>
+        <div class="info-box">
+          <div class="info-row"><span>인가 전압</span><span id="d-iv">0.00 V</span></div>
+          <div class="info-row"><span>전류</span><span id="d-ii">0.00 mA</span></div>
+          <div class="info-row"><span>저항</span><span id="d-ir">∞ Ω</span></div>
+          <div class="info-row"><span>문턱 전압</span><span>0.70 V</span></div>
+          <div class="info-row"><span>상태</span><span id="d-istate">차단</span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-success" id="d-play">▶ 재생</button>
+        <button class="btn btn-danger" id="d-reset">↺ 초기화</button>
+      </div>
+    </div>
+  </div>
+  <div class="sim-bottom">
+    <div class="chart-card">
+      <h3>📈 I-V 특성 곡선</h3>
+      <div class="chart-box"><canvas id="d-chart"></canvas></div>
+    </div>
+    <div class="prin-card">
+      <button class="btn-prin" id="d-pbtn">💡 작동 원리 자세히 보기 <span class="arr">▼</span></button>
+      <div class="prin-panel" id="d-ppanel">
+        <div class="psec"><h4>① 한 줄 요약</h4>
+          <p>이 회로는 <strong>PN 접합으로 전류를 한 방향으로만 흐르게 하는</strong> 다이오드 회로입니다.</p></div>
+        <div class="psec"><h4>② 부품 소개</h4><ul>
+          <li><strong>전지</strong> — 전압을 공급하는 에너지원이에요.</li>
+          <li><strong>다이오드</strong> — P형·N형 반도체를 붙여 만든 소자예요.</li>
+          <li><strong>보호 저항</strong> — 과전류를 막아 다이오드를 보호해요.</li></ul></div>
+        <div class="psec"><h4>③ 단계별 동작</h4><ol>
+          <li>전지 음극에서 <span class="term">자유 전자</span>가 출발해요.</li>
+          <li><span class="term">문턱 전압</span>(0.7V) 이하이면 <span class="term">공핍층</span> 장벽을 넘지 못해요.</li>
+          <li>0.7V를 넘으면 공핍층이 얇아져 전자가 접합부를 통과해요.</li>
+          <li>P형의 <span class="term">양공</span>과 결합하면서 전류가 흘러요.</li>
+          <li>역방향이면 공핍층이 넓어져 전류가 차단돼요.</li></ol></div>
+        <div class="psec"><h4>④ 왜 이렇게 될까?</h4>
+          <p>N형엔 <span class="term">자유 전자</span>, P형엔 <span class="term">양공</span>이 많아요. 접합면에서 이들이 결합해 <span class="term">공핍층</span>(전기 장벽)이 생겨요. 순방향 전압을 걸면 장벽이 낮아져 전류가 흐르고, 역방향이면 장벽이 높아져 차단돼요.</p></div>
+        <div class="psec"><h4>⑤ 교과서 연결</h4>
+          <div class="tb-link"><strong>📚 비상교육 통합과학</strong>
+          Ⅳ단원 › 3. 신소재와 반도체 › 다이오드<br/>
+          핵심: PN 접합, 순방향·역방향 바이어스, 문턱 전압, 정류 작용</div></div>
+      </div>
+    </div>
+  </div>
+  <script src="js/common.js"></script>
+  <script src="js/diode.js"></script>
+</body>
+</html>

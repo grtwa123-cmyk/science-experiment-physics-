@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="color-scheme" content="light"/>
+<title>직렬·병렬 저항 시뮬레이터 | 통합과학 회로</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body class="sim-page">
+  <header class="sim-hdr">
+    <a class="btn-back" href="index.html">◀ 메인으로</a>
+    <h2>🔩 직렬·병렬 저항</h2>
+  </header>
+  <div class="unit-intro">
+    <div class="unit-label">📘 비상교육 통합과학 Ⅲ단원 · 전기 회로</div>
+    <p><strong>직렬</strong>: <span style="color:#ef4444;font-weight:700;">R = R₁ + R₂</span> (저항 증가)
+    &nbsp;|&nbsp; <strong>병렬</strong>: <span style="color:#2563eb;font-weight:700;">1/R = 1/R₁ + 1/R₂</span> (저항 감소)</p>
+  </div>
+  <div class="sim-main">
+    <div class="canvas-wrap">
+      <canvas id="sp-canvas" style="height:300px;"></canvas>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>자유 전자</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;width:14px;border-radius:2px;height:8px;"></div>R₁</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10b981;width:14px;border-radius:2px;height:8px;"></div>R₂</div>
+      </div>
+    </div>
+    <div class="ctrl-panel">
+      <div class="panel-sec">
+        <h3>🔌 연결 방식</h3>
+        <div class="toggle-group" id="sp-mode-grp">
+          <button class="toggle-btn active" data-value="series">직렬</button>
+          <button class="toggle-btn" data-value="parallel">병렬</button>
+        </div>
+      </div>
+      <div class="panel-sec">
+        <h3>🎚️ 저항 조절</h3>
+        <div class="slider-group">
+          <div class="slider-label"><span>R₁</span>
+            <span class="slider-value" id="sp-r1disp">100 Ω</span></div>
+          <input type="range" id="sp-r1slider" min="10" max="500" step="10" value="100"/>
+        </div>
+        <div class="slider-group">
+          <div class="slider-label"><span>R₂</span>
+            <span class="slider-value" id="sp-r2disp">200 Ω</span></div>
+          <input type="range" id="sp-r2slider" min="10" max="500" step="10" value="200"/>
+        </div>
+      </div>
+      <div class="panel-sec">
+        <h3>📊 계산 결과</h3>
+        <div class="info-box">
+          <div class="info-row"><span>R₁</span><span id="sp-ir1">100 Ω</span></div>
+          <div class="info-row"><span>R₂</span><span id="sp-ir2">200 Ω</span></div>
+          <div class="info-row"><span>합성 저항 R</span><span id="sp-irtotal">300 Ω</span></div>
+          <div class="info-row"><span>공식</span><span id="sp-iformula">R=R₁+R₂</span></div>
+          <div class="info-row"><span>전류(V=5V)</span><span id="sp-ii">16.67 mA</span></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-success" id="sp-play">▶ 재생</button>
+        <button class="btn btn-danger" id="sp-reset">↺ 초기화</button>
+      </div>
+    </div>
+  </div>
+  <div class="sim-bottom">
+    <div class="chart-card">
+      <h3>📊 저항 비교 막대 그래프</h3>
+      <div class="chart-box"><canvas id="sp-chart"></canvas></div>
+    </div>
+    <div class="prin-card">
+      <button class="btn-prin" id="sp-pbtn">💡 작동 원리 자세히 보기 <span class="arr">▼</span></button>
+      <div class="prin-panel" id="sp-ppanel">
+        <div class="psec"><h4>① 한 줄 요약</h4>
+          <p>이 회로는 <strong>직렬·병렬 연결에 따른 합성 저항 차이</strong>를 비교하는 회로입니다.</p></div>
+        <div class="psec"><h4>② 핵심 공식</h4><ul>
+          <li><strong>직렬:</strong> <span class="formula">R합성 = R₁ + R₂</span></li>
+          <li><strong>병렬:</strong> <span class="formula">1/R합성 = 1/R₁ + 1/R₂</span></li>
+          <li>병렬 정리: <span class="formula">R합성 = (R₁×R₂)/(R₁+R₂)</span></li></ul></div>
+        <div class="psec"><h4>③ 단계별 동작</h4><ol>
+          <li><strong>직렬:</strong> 전자가 R₁→R₂를 차례로 통과해 방해를 두 번 받아요.</li>
+          <li><strong>병렬:</strong> 전자가 R₁ 또는 R₂ 중 하나를 선택해 이동해요.</li>
+          <li>병렬에서 전압은 각 저항에 동일, 직렬에서는 저항 비율로 분배돼요.</li></ol></div>
+        <div class="psec"><h4>④ 왜 병렬이 저항이 더 작을까?</h4>
+          <p>수도관을 떠올려 보세요. 파이프 두 개를 연결하면 물이 더 잘 흘러요. 전자도 통로가 많을수록 잘 흘러서 합성 저항이 작아져요. <span class="formula">R합성(병렬) &lt; min(R₁, R₂)</span>가 항상 성립해요.</p></div>
+        <div class="psec"><h4>⑤ 교과서 연결</h4>
+          <div class="tb-link"><strong>📚 비상교육 통합과학</strong>
+          Ⅲ단원 › 2. 전기와 자기 › 저항의 직렬·병렬 연결<br/>
+          핵심: 합성 저항, 직렬(R=R₁+R₂), 병렬(1/R=1/R₁+1/R₂)</div></div>
+      </div>
+    </div>
+  </div>
+  <script src="js/common.js"></script>
+  <script src="js/series-parallel.js"></script>
+</body>
+</html>
